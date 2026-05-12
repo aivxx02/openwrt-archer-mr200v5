@@ -103,6 +103,15 @@ Pin 4 — 3V3  → leave UNCONNECTED
 
 > ⚠️ Always connect TX→RX and RX→TX (crossed). Never connect 3V3 pin.
 
+### Wiring Setup
+
+The images below show the actual wiring setup with a USB-to-UART adapter (red board) connected to the UART header on the MR200 v5 PCB using jumper wires.
+
+![Wiring setup - close up](Images/image-1.jpg)
+![Wiring setup - overview](Images/image-2.jpg)
+
+The hand-drawn diagram below illustrates the 4-pin UART header layout. The pins are labelled **TX**, **RX**, **GND**, and **VCC** (left to right). The triangle warning symbol above **VCC** indicates this pin must remain unconnected — connecting it can damage both the router and the USB adapter. Only TX, RX, and GND are used.
+
 ### PuTTY Serial Settings
 
 | Setting | Value |
