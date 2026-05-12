@@ -1,6 +1,10 @@
-# OpenWrt Installation Guide — TP-Link Archer MR200 v5
+# 📡 OpenWrt Installation Guide — TP-Link Archer MR200 v5
 
-## Device Info
+![OpenWrt](https://img.shields.io/badge/OpenWrt-24.10.0-blue)
+![Target](https://img.shields.io/badge/Target-ramips%2Fmt76x8-green)
+![SoC](https://img.shields.io/badge/SoC-MT7628AN-orange)
+
+## 🔧 Device Info
 
 | Property | Value |
 |----------|-------|
@@ -14,7 +18,7 @@
 
 ---
 
-## Firmware Download
+## 📥 Firmware Download
 
 Go to: https://firmware-selector.openwrt.org  
 Search: `archer mr200 v5`
@@ -25,7 +29,20 @@ Two files available:
 
 ---
 
-## Method 1 — WPS Button + TFTP Recovery (Recommended)
+## 🗺️ Which Method Should I Use?
+
+```mermaid
+flowchart TD
+    A([Start]) --> B{OpenWrt already installed?}
+    B -- Yes --> C[🔄 Method 3 — LuCI Sysupgrade]
+    B -- No --> D{WPS button method works?}
+    D -- Yes --> E[⚡ Method 1 — WPS + TFTP\n✅ Recommended]
+    D -- No --> F[🔌 Method 2 — UART + U-Boot]
+```
+
+---
+
+## ⚡ Method 1 — WPS Button + TFTP Recovery (Recommended)
 
 This is the easiest method. No hardware modification needed.
 
@@ -45,7 +62,7 @@ This is the easiest method. No hardware modification needed.
 
 ### Steps
 
-**1. Set PC IP address**
+**1️⃣ Set PC IP address**
 
 - Open Network & Internet Settings
 - Click Ethernet adapter → Properties
@@ -53,7 +70,7 @@ This is the easiest method. No hardware modification needed.
 - IP: `192.168.0.225`, Subnet: `255.255.255.0`, Gateway: blank
 - Click OK
 
-**2. Prepare TFTP server**
+**2️⃣ Prepare TFTP server**
 
 - Download Tftpd64: https://pjo2.github.io/tftpd64/
 - Rename the downloaded firmware to exactly: `tp_recovery.bin`
@@ -61,7 +78,7 @@ This is the easiest method. No hardware modification needed.
 - Set **Current Directory** to the folder containing `tp_recovery.bin`
 - Set **Server interfaces** to `192.168.0.225` (your Ethernet adapter, NOT Bluetooth or Wi-Fi)
 
-**3. Flash the firmware**
+**3️⃣ Flash the firmware**
 
 - Power off the router
 - Connect Ethernet cable from PC to any LAN port
@@ -70,7 +87,7 @@ This is the easiest method. No hardware modification needed.
 - Wait for transfer
 - Router will flash automatically and reboot (~2-3 minutes)
 
-**4. Verify**
+**4️⃣ Verify**
 
 - After reboot, open browser to `http://192.168.1.1`
 - OpenWrt LuCI interface should appear
@@ -78,7 +95,7 @@ This is the easiest method. No hardware modification needed.
 
 ---
 
-## Method 2 — UART + U-Boot TFTP (Advanced)
+## 🔌 Method 2 — UART + U-Boot TFTP (Advanced)
 
 Use this method if the WPS button method fails. Requires opening the router and soldering a UART header.
 
@@ -94,11 +111,10 @@ Use this method if the WPS button method fails. Requires opening the router and 
 Open the router. Locate the 4-pin header on the PCB. With LEDs facing left:
 
 ```
-[LEDs side]
-Pin 1 — TX   → connect to RX of USB adapter
-Pin 2 — RX   → connect to TX of USB adapter  
-Pin 3 — GND  → connect to GND of USB adapter
-Pin 4 — 3V3  → leave UNCONNECTED
+┌──────────────────────── [LEDs side] ────────────────────────┐
+│  Pin 1 — TX   │  Pin 2 — RX   │  Pin 3 — GND  │  Pin 4 — 3V3 ⛔  │
+│  → RX (adapt) │  → TX (adapt) │  → GND (adapt)│  LEAVE UNCONNECTED │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 > ⚠️ Always connect TX→RX and RX→TX (crossed). Never connect 3V3 pin.
@@ -221,7 +237,7 @@ reset
 
 ---
 
-## Method 3 — Upgrade via LuCI (Sysupgrade)
+## 🔄 Method 3 — Upgrade via LuCI (Sysupgrade)
 
 Use this only when OpenWrt is **already installed** and you want to update to a newer version.
 
@@ -234,18 +250,18 @@ Use this only when OpenWrt is **already installed** and you want to update to a 
 
 ---
 
-## Post-Installation Setup
+## ✅ Post-Installation Setup
 
-1. Open browser → `http://192.168.1.1`
-2. Login (blank password first time)
-3. Go to **System → Administration** → set root password
-4. Go to **System → Software** → `opkg update` to refresh package list
-5. Configure WiFi under **Network → Wireless**
-6. Configure WAN under **Network → Interfaces** (default uses LTE modem as WAN)
+1. 🌐 Open browser → `http://192.168.1.1`
+2. 🔑 Login (blank password first time)
+3. 🔒 Go to **System → Administration** → set root password
+4. 📦 Go to **System → Software** → `opkg update` to refresh package list
+5. 📶 Configure WiFi under **Network → Wireless**
+6. 🔗 Configure WAN under **Network → Interfaces** (default uses LTE modem as WAN)
 
 ---
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
@@ -255,6 +271,6 @@ Use this only when OpenWrt is **already installed** and you want to update to a 
 
 ---
 
-## Notes
+## 📝 Notes
 
 - Always use the adapter's **LAN ports** for TFTP, never the WAN port
